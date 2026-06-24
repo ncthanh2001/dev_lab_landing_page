@@ -1,4 +1,6 @@
 ---
+import { ZALO_URL } from "../config";
+
 const courses = [
   {
     icon: "🚀",
@@ -39,7 +41,6 @@ const highlights = [
   { icon: "🧑‍🏫", title: "Mentor thực chiến", desc: "Học trực tiếp từ lập trình viên đang làm dự án thật tại DevLab." },
   { icon: "🏭", title: "Hiểu quy trình doanh nghiệp", desc: "Không chỉ học code — học cách phần mềm vận hành trong tổ chức thật." },
   { icon: "💼", title: "Dự án như đi làm", desc: "Làm bài tập theo quy trình công ty: sprint, review, bàn giao." },
-  { icon: "🎓", title: "Chứng chỉ & cơ hội", desc: "Cấp chứng chỉ hoàn thành và ưu tiên cơ hội thực tập tại DevLab." },
 ];
 ---
 
@@ -98,7 +99,7 @@ const highlights = [
     </div>
 
     <div class="training-cta" data-reveal>
-      <a class="btn btn-primary" href="#contact">Đăng ký tư vấn khoá học</a>
+      <a class="btn btn-primary" href={ZALO_URL} target="_blank" rel="noopener">Đăng ký tư vấn khoá học</a>
       <span class="cta-note">Khai giảng định kỳ · Học online & offline</span>
     </div>
   </div>
@@ -255,7 +256,7 @@ const highlights = [
   /* Highlights */
   .highlights {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 24px;
     padding: 36px 0;
     border-top: 1px solid rgba(255, 255, 255, 0.08);

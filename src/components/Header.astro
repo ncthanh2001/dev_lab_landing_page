@@ -1,10 +1,12 @@
 ---
+import { ZALO_URL } from "../config";
+
 const links = [
   { href: "#services", label: "Dịch vụ" },
   { href: "#why", label: "Vì sao chọn DevLab" },
   { href: "#process", label: "Quy trình" },
   { href: "#training", label: "Đào tạo" },
-  { href: "#contact", label: "Liên hệ" },
+  { href: ZALO_URL, label: "Liên hệ", external: true },
 ];
 ---
 
@@ -15,10 +17,22 @@ const links = [
     </a>
 
     <nav class="nav" aria-label="Điều hướng chính">
-      {links.map((link) => <a href={link.href}>{link.label}</a>)}
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            target={link.external ? "_blank" : undefined}
+            rel={link.external ? "noopener" : undefined}
+          >
+            {link.label}
+          </a>
+        ))
+      }
     </nav>
 
-    <a class="btn btn-primary nav-cta" href="#contact">Bắt đầu dự án</a>
+    <a class="btn btn-primary nav-cta" href={ZALO_URL} target="_blank" rel="noopener">
+      Bắt đầu dự án
+    </a>
 
     <button class="menu-toggle" aria-label="Mở menu" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -26,8 +40,18 @@ const links = [
   </div>
 
   <nav class="mobile-nav" aria-label="Điều hướng di động" hidden>
-    {links.map((link) => <a href={link.href}>{link.label}</a>)}
-    <a class="btn btn-primary" href="#contact">Bắt đầu dự án</a>
+    {
+      links.map((link) => (
+        <a
+          href={link.href}
+          target={link.external ? "_blank" : undefined}
+          rel={link.external ? "noopener" : undefined}
+        >
+          {link.label}
+        </a>
+      ))
+    }
+    <a class="btn btn-primary" href={ZALO_URL} target="_blank" rel="noopener">Bắt đầu dự án</a>
   </nav>
 </header>
 
