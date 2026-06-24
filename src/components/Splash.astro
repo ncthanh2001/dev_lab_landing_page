@@ -1,0 +1,311 @@
+---
+// First-load splash: an orbiting logo + a ~5s progress ring, then the whole
+// overlay shatters into shards (center-out) to reveal the page.
+const COLS = 10;
+const ROWS = 7;
+
+const shards = [];
+for (let r = 0; r < ROWS; r++) {
+  for (let c = 0; c < COLS; c++) {
+    const cx = (c + 0.5) * (100 / COLS);
+    const cy = (r + 0.5) * (100 / ROWS);
+    const dx = cx - 50;
+    const dy = cy - 50;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    const sign = (r * COLS + c) % 2 === 0 ? 1 : -1;
+    shards.push({
+      left: c * (100 / COLS),
+      top: r * (100 / ROWS),
+      w: 100 / COLS,
+      h: 100 / ROWS,
+      tx: (dx * 2.4).toFixed(1),
+      ty: (dy * 2.4).toFixed(1),
+      rot: sign * (25 + ((r * 7 + c * 13) % 45)),
+      delay: Math.round(dist * 4),
+    });
+  }
+}
+
+const values = ["🛡️", "🧠", "🚀"];
+const angles = ["0deg", "120deg", "240deg"];
+---
+
+<div id="splash" role="status" aria-label="Đang tải DevLab">
+  <div class="shards" aria-hidden="true">
+    {
+      shards.map((s) => (
+        <span
+          class="shard"
+          style={`left:${s.left}%;top:${s.top}%;width:${s.w}%;height:${s.h}%;--tx:${s.tx}vw;--ty:${s.ty}vh;--rot:${s.rot}deg;--d:${s.delay}ms`}
+        />
+      ))
+    }
+  </div>
+
+  <div class="splash-stage">
+    <div class="splash-orbit">
+      <svg class="progress" viewBox="0 0 120 120" aria-hidden="true">
+        <circle class="progress-track" cx="60" cy="60" r="54" />
+        <circle class="progress-bar" cx="60" cy="60" r="54" />
+      </svg>
+
+      <span class="s-ring"></span>
+
+      <div class="s-core">
+        <img src="/devlab-logo.png" alt="DevLab" width="110" height="110" />
+      </div>
+
+      <div class="s-rotor">
+        {
+          values.map((icon, i) => (
+            <div class="s-node" style={`--a:${angles[i]}`}>
+              <div class="s-spin">
+                <span class="s-dot">{icon}</span>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <p class="splash-tagline">Đạo Đức · Trí Tuệ · Nghị Lực</p>
+  </div>
+</div>
+
+<style>
+  #splash {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  /* ---- Shard backdrop (seamless via fixed-attachment gradient) ---- */
+  .shards {
+    position: absolute;
+    inset: 0;
+  }
+
+  .shard {
+    position: absolute;
+    background: radial-gradient(circle at 50% 40%, #ffffff 0%, #eef3fb 58%, #e3ecfb 100%);
+    background-attachment: fixed;
+    background-size: 100vw 100vh;
+    background-position: center;
+    will-change: transform, opacity;
+    transition:
+      transform 0.7s cubic-bezier(0.5, 0, 0.3, 1) var(--d),
+      opacity 0.6s ease var(--d);
+  }
+
+  #splash.breaking .shard {
+    transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(0.35);
+    opacity: 0;
+  }
+
+  /* ---- Centered stage ---- */
+  .splash-stage {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    gap: 26px;
+    transition: transform 0.8s cubic-bezier(0.5, 0, 0.3, 1), opacity 0.6s ease;
+    animation: stage-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  #splash.breaking .splash-stage {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+
+  @keyframes stage-in {
+    from {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+  }
+
+  .splash-orbit {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    --r: 100px;
+  }
+
+  .progress {
+    position: absolute;
+    inset: -6px;
+    width: calc(100% + 12px);
+    height: calc(100% + 12px);
+    transform: rotate(-90deg);
+  }
+
+  .progress-track {
+    fill: none;
+    stroke: rgba(22, 119, 255, 0.12);
+    stroke-width: 2.5;
+  }
+
+  .progress-bar {
+    fill: none;
+    stroke: var(--primary);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 339.292;
+    stroke-dashoffset: 339.292;
+    animation: fill 2s linear forwards;
+  }
+
+  @keyframes fill {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  .s-ring {
+    position: absolute;
+    inset: 14%;
+    border-radius: 50%;
+    border: 1px dashed rgba(22, 119, 255, 0.3);
+    animation: spin 30s linear infinite;
+  }
+
+  .s-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 46%;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: #fff;
+    display: grid;
+    place-items: center;
+    box-shadow:
+      0 14px 36px -12px rgba(8, 17, 32, 0.4),
+      0 0 0 8px rgba(22, 119, 255, 0.05);
+    z-index: 2;
+  }
+
+  .s-core img {
+    width: 74%;
+    height: auto;
+  }
+
+  .s-rotor {
+    position: absolute;
+    inset: 0;
+    animation: spin 6s linear infinite;
+  }
+
+  .s-node {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    transform: rotate(var(--a)) translateY(calc(-1 * var(--r))) rotate(calc(-1 * var(--a)));
+  }
+
+  .s-spin {
+    animation: spin-rev 6s linear infinite;
+  }
+
+  .s-dot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    font-size: 1.25rem;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 22px -8px rgba(8, 17, 32, 0.35);
+    animation: dot-pop 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .s-node:nth-child(1) .s-dot {
+    animation-delay: 0.35s;
+  }
+  .s-node:nth-child(2) .s-dot {
+    animation-delay: 0.5s;
+  }
+  .s-node:nth-child(3) .s-dot {
+    animation-delay: 0.65s;
+  }
+
+  .splash-tagline {
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--secondary);
+    font-size: 1rem;
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: stage-in 0.8s ease 0.4s both;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes spin-rev {
+    to {
+      transform: rotate(-360deg);
+    }
+  }
+  @keyframes dot-pop {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.2);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .s-rotor,
+    .s-spin,
+    .s-ring,
+    .progress-bar {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  const splash = document.getElementById("splash");
+  if (splash) {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const HOLD = reduced ? 400 : 2000; // keep in sync with the progress ring (2s)
+    const html = document.documentElement;
+    const prevOverflow = html.style.overflow;
+    html.style.overflow = "hidden";
+
+    let done = false;
+    const finish = () => {
+      splash.remove();
+      html.style.overflow = prevOverflow;
+    };
+
+    const breakUp = () => {
+      if (done) return;
+      done = true;
+      splash.classList.add("breaking");
+      window.setTimeout(finish, reduced ? 400 : 1000);
+    };
+
+    // click anywhere to skip
+    splash.addEventListener("click", breakUp);
+
+    window.setTimeout(breakUp, HOLD);
+  }
+</script>

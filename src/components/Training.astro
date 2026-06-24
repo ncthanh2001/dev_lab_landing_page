@@ -1,0 +1,315 @@
+---
+const courses = [
+  {
+    icon: "🚀",
+    title: "Lập trình Web Fullstack",
+    level: "Cơ bản → Đi làm",
+    duration: "4 tháng",
+    desc: "Từ HTML/CSS/JS đến React & Node.js, xây dựng dự án thật và sẵn sàng cho công việc đầu tiên.",
+    tags: ["Frontend", "Backend", "Dự án thực tế"],
+  },
+  {
+    icon: "🏢",
+    title: "Nghiệp vụ doanh nghiệp cho Developer",
+    level: "Nâng cao",
+    duration: "6 tuần",
+    desc: "Hiểu quy trình bán hàng, kho, kế toán, nhân sự... để viết phần mềm đúng nghiệp vụ, không chỉ đúng code.",
+    tags: ["Quy trình", "ERP", "Tư duy nghiệp vụ"],
+    featured: true,
+  },
+  {
+    icon: "🔄",
+    title: "Quy trình phát triển phần mềm thực chiến",
+    level: "Trung cấp",
+    duration: "8 tuần",
+    desc: "Agile/Scrum, Git flow, code review, kiểm thử và CI/CD — làm việc đúng chuẩn như trong doanh nghiệp.",
+    tags: ["Agile/Scrum", "Git", "CI/CD"],
+  },
+  {
+    icon: "📊",
+    title: "Phân tích & thiết kế hệ thống",
+    level: "Trung cấp",
+    duration: "6 tuần",
+    desc: "Chuyển yêu cầu nghiệp vụ thành thiết kế database, API và kiến trúc hệ thống rõ ràng, mở rộng được.",
+    tags: ["Business Analysis", "Database", "System Design"],
+  },
+];
+
+const highlights = [
+  { icon: "🧑‍🏫", title: "Mentor thực chiến", desc: "Học trực tiếp từ lập trình viên đang làm dự án thật tại DevLab." },
+  { icon: "🏭", title: "Hiểu quy trình doanh nghiệp", desc: "Không chỉ học code — học cách phần mềm vận hành trong tổ chức thật." },
+  { icon: "💼", title: "Dự án như đi làm", desc: "Làm bài tập theo quy trình công ty: sprint, review, bàn giao." },
+  { icon: "🎓", title: "Chứng chỉ & cơ hội", desc: "Cấp chứng chỉ hoàn thành và ưu tiên cơ hội thực tập tại DevLab." },
+];
+---
+
+<section class="section training" id="training">
+  <div class="training-bg" aria-hidden="true">
+    <span class="aurora t1"></span>
+    <span class="aurora t2"></span>
+  </div>
+
+  <div class="container">
+    <div class="section-head center" data-reveal>
+      <span class="eyebrow">DevLab Academy</span>
+      <h2 class="section-title">Đào tạo lập trình viên <span class="text-gradient">hiểu nghiệp vụ</span></h2>
+      <p class="section-lead">
+        Không chỉ dạy viết code — chúng tôi giúp học viên hiểu rõ quy trình doanh
+        nghiệp, để trở thành lập trình viên giải quyết được bài toán thực tế.
+      </p>
+    </div>
+
+    <div class="course-grid">
+      {
+        courses.map((c, i) => (
+          <article
+            class:list={["course-card", "glow-border", { featured: c.featured }]}
+            data-reveal
+            style={`--reveal-delay: ${i * 80}ms`}
+          >
+            {c.featured && <span class="ribbon">Nổi bật</span>}
+            <div class="course-icon">{c.icon}</div>
+            <h3>{c.title}</h3>
+            <div class="course-meta">
+              <span>🎯 {c.level}</span>
+              <span>⏱ {c.duration}</span>
+            </div>
+            <p>{c.desc}</p>
+            <ul class="course-tags">
+              {c.tags.map((t) => <li>{t}</li>)}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="highlights" data-reveal>
+      {
+        highlights.map((h) => (
+          <div class="highlight">
+            <span class="hl-icon">{h.icon}</span>
+            <div>
+              <strong>{h.title}</strong>
+              <p>{h.desc}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="training-cta" data-reveal>
+      <a class="btn btn-primary" href="#contact">Đăng ký tư vấn khoá học</a>
+      <span class="cta-note">Khai giảng định kỳ · Học online & offline</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .training {
+    position: relative;
+    overflow: hidden;
+    background: var(--navy-900);
+    color: var(--text-invert);
+  }
+
+  .training-bg {
+    position: absolute;
+    inset: 0;
+  }
+
+  .aurora.t1 {
+    width: 420px;
+    height: 420px;
+    top: -120px;
+    left: -100px;
+    background: radial-gradient(circle, #1677ff, transparent 65%);
+    opacity: 0.4;
+  }
+
+  .aurora.t2 {
+    width: 380px;
+    height: 380px;
+    bottom: -140px;
+    right: -80px;
+    background: radial-gradient(circle, #3b9cff, transparent 65%);
+    opacity: 0.35;
+    animation-delay: -8s;
+  }
+
+  .training .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .section-head.center {
+    max-width: 660px;
+    margin: 0 auto 56px;
+    text-align: center;
+  }
+
+  .training .section-title {
+    color: #fff;
+  }
+
+  .training .section-lead {
+    color: #aab6d4;
+    margin-inline: auto;
+  }
+
+  .course-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+    margin-bottom: 64px;
+  }
+
+  .course-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 28px 24px;
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(6px);
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+
+  .course-card:hover {
+    transform: translateY(-6px);
+    background: rgba(255, 255, 255, 0.07);
+  }
+
+  .course-card.featured {
+    background: linear-gradient(160deg, rgba(37, 99, 235, 0.22), rgba(29, 63, 196, 0.08));
+    border-color: rgba(96, 165, 250, 0.5);
+  }
+
+  .ribbon {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--brand-gradient);
+    padding: 4px 11px;
+    border-radius: 999px;
+  }
+
+  .course-icon {
+    width: 54px;
+    height: 54px;
+    display: grid;
+    place-items: center;
+    font-size: 1.55rem;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    margin-bottom: 18px;
+  }
+
+  .course-card h3 {
+    color: #fff;
+    font-size: 1.12rem;
+    margin-bottom: 12px;
+  }
+
+  .course-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-size: 0.84rem;
+    color: var(--blue-400);
+    margin-bottom: 12px;
+  }
+
+  .course-card > p {
+    color: #aab6d4;
+    font-size: 0.95rem;
+    margin-bottom: 18px;
+    flex-grow: 1;
+  }
+
+  .course-tags {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+
+  .course-tags li {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: #c6d0e6;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 4px 11px;
+    border-radius: 999px;
+  }
+
+  /* Highlights */
+  .highlights {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    padding: 36px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .highlight {
+    display: flex;
+    gap: 14px;
+  }
+
+  .hl-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .highlight strong {
+    display: block;
+    color: #fff;
+    font-size: 1rem;
+    margin-bottom: 4px;
+  }
+
+  .highlight p {
+    color: #99a4c2;
+    font-size: 0.9rem;
+  }
+
+  /* CTA */
+  .training-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-top: 48px;
+  }
+
+  .cta-note {
+    color: #99a4c2;
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 1040px) {
+    .course-grid,
+    .highlights {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .course-grid,
+    .highlights {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

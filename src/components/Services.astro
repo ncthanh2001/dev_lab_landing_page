@@ -1,0 +1,129 @@
+---
+const services = [
+  {
+    icon: "🌐",
+    title: "Phát triển Web",
+    desc: "Website, landing page và web app hiệu năng cao với Astro, Next.js, React — chuẩn SEO, tải nhanh, responsive trên mọi thiết bị.",
+  },
+  {
+    icon: "📱",
+    title: "Ứng dụng Mobile",
+    desc: "Ứng dụng iOS & Android mượt mà bằng React Native / Flutter, trải nghiệm gần như native với một codebase duy nhất.",
+  },
+  {
+    icon: "⚙️",
+    title: "Phần mềm theo yêu cầu",
+    desc: "Hệ thống quản lý, ERP, CRM và công cụ nội bộ được thiết kế riêng theo đúng quy trình của doanh nghiệp bạn.",
+  },
+  {
+    icon: "🎨",
+    title: "Thiết kế UI/UX",
+    desc: "Nghiên cứu người dùng, wireframe và giao diện đẹp, dễ dùng — biến sản phẩm phức tạp thành trải nghiệm đơn giản.",
+  },
+  {
+    icon: "☁️",
+    title: "Cloud & DevOps",
+    desc: "Triển khai, CI/CD và hạ tầng cloud (AWS, Vercel, Docker) giúp sản phẩm vận hành ổn định và mở rộng linh hoạt.",
+  },
+  {
+    icon: "🤖",
+    title: "Tích hợp AI",
+    desc: "Đưa sức mạnh AI vào sản phẩm: chatbot, tìm kiếm thông minh, tự động hoá quy trình với các mô hình ngôn ngữ hiện đại.",
+  },
+];
+---
+
+<section class="section services" id="services">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">Dịch vụ của chúng tôi</span>
+      <h2 class="section-title">Mọi thứ bạn cần để đưa sản phẩm ra thị trường</h2>
+      <p class="section-lead">
+        Từ ý tưởng đầu tiên đến lúc vận hành, DevLab đồng hành ở mọi giai đoạn của
+        vòng đời sản phẩm số.
+      </p>
+    </div>
+
+    <div class="services-grid">
+      {
+        services.map((s, i) => (
+          <article
+            class="service-card glow-border"
+            data-reveal
+            style={`--reveal-delay: ${i * 80}ms`}
+          >
+            <div class="service-icon">{s.icon}</div>
+            <h3>{s.title}</h3>
+            <p>{s.desc}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .services {
+    background: var(--surface-alt);
+  }
+
+  .section-head {
+    max-width: 680px;
+    margin-bottom: 56px;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .service-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px 28px;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+
+  .service-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(59, 130, 246, 0.45);
+  }
+
+  .service-icon {
+    width: 56px;
+    height: 56px;
+    display: grid;
+    place-items: center;
+    font-size: 1.6rem;
+    border-radius: 14px;
+    background: var(--brand-gradient-soft);
+    border: 1px solid var(--border);
+    margin-bottom: 20px;
+  }
+
+  .service-card h3 {
+    font-size: 1.22rem;
+    margin-bottom: 10px;
+  }
+
+  .service-card p {
+    font-size: 0.98rem;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 920px) {
+    .services-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

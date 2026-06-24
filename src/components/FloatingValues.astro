@@ -1,0 +1,240 @@
+---
+// Compact floating "core values" mini-orbit.
+// Parks bottom-right after the hero, then flies + scales back into the
+// in-section orbit (#values-orbit) when the Giá trị cốt lõi section is in view.
+const values = [
+  { icon: "🛡️", title: "Đạo Đức", angle: "0deg" },
+  { icon: "🧠", title: "Trí Tuệ", angle: "120deg" },
+  { icon: "🚀", title: "Nghị Lực", angle: "240deg" },
+];
+---
+
+<a
+  class="floating-values"
+  href="#values"
+  data-state="hidden"
+  aria-label="Giá trị cốt lõi của DevLab: Đạo Đức, Trí Tuệ, Nghị Lực"
+>
+  <span class="fv-ring"></span>
+  <div class="fv-core">
+    <img src="/devlab-logo.png" alt="" width="80" height="80" />
+  </div>
+  <div class="fv-rotor">
+    {
+      values.map((v) => (
+        <div class="fv-node" style={`--a: ${v.angle}`}>
+          <div class="fv-spin">
+            <span class="fv-dot" title={v.title}>
+              {v.icon}
+            </span>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</a>
+
+<style>
+  .floating-values {
+    --fv-size: 128px;
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    width: var(--fv-size);
+    height: var(--fv-size);
+    z-index: 45;
+    cursor: pointer;
+    transform-origin: center;
+    transition:
+      transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.45s ease;
+  }
+
+  /* States */
+  .floating-values[data-state="hidden"] {
+    opacity: 0;
+    transform: translateY(24px);
+    pointer-events: none;
+  }
+  .floating-values[data-state="parked"] {
+    opacity: 1;
+  }
+  .floating-values[data-state="docking"] {
+    opacity: 0;
+    pointer-events: none;
+    /* keep the chip visible during the flight, fade only on arrival */
+    transition:
+      transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.4s ease 0.45s;
+  }
+
+  .fv-ring {
+    position: absolute;
+    inset: 6%;
+    border-radius: 50%;
+    border: 1px dashed rgba(22, 119, 255, 0.35);
+  }
+
+  .fv-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 56%;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: #fff;
+    display: grid;
+    place-items: center;
+    box-shadow:
+      0 8px 22px -8px rgba(8, 17, 32, 0.4),
+      0 0 0 5px rgba(22, 119, 255, 0.06);
+    z-index: 2;
+  }
+
+  .fv-core img {
+    width: 74%;
+    height: auto;
+  }
+
+  .fv-rotor {
+    position: absolute;
+    inset: 0;
+    animation: fv-spin 18s linear infinite;
+  }
+
+  .fv-node {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    transform: rotate(var(--a)) translateY(-46px) rotate(calc(-1 * var(--a)));
+  }
+
+  .fv-spin {
+    animation: fv-spin-rev 18s linear infinite;
+  }
+
+  .fv-dot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    font-size: 0.95rem;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid var(--border);
+    box-shadow: 0 6px 16px -6px rgba(8, 17, 32, 0.35);
+  }
+
+  .floating-values:hover .fv-rotor,
+  .floating-values:hover .fv-spin {
+    animation-play-state: paused;
+  }
+
+  @keyframes fv-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes fv-spin-rev {
+    to {
+      transform: rotate(-360deg);
+    }
+  }
+
+  /* Hidden on mobile / touch */
+  @media (max-width: 920px) {
+    .floating-values {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fv-rotor,
+    .fv-spin {
+      animation: none;
+    }
+    .floating-values {
+      transition: opacity 0.3s ease;
+    }
+  }
+</style>
+
+<script>
+  const widget = document.querySelector<HTMLElement>(".floating-values");
+  const heroEl = document.querySelector(".hero");
+  const valuesSection = document.getElementById("values");
+  const W = 128; // must match --fv-size
+  const MARGIN = 24;
+
+  if (widget && valuesSection) {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let heroInView = true;
+    let valuesInView = false;
+
+    const parkedCenter = () => ({
+      x: window.innerWidth - MARGIN - W / 2,
+      y: window.innerHeight - MARGIN - W / 2,
+    });
+
+    const dock = () => {
+      const target = document.getElementById("values-orbit");
+      if (target && !reduced) {
+        const tr = target.getBoundingClientRect();
+        const tc = { x: tr.left + tr.width / 2, y: tr.top + tr.height / 2 };
+        const pc = parkedCenter();
+        const scale = tr.width / W;
+        widget.style.transform = `translate(${tc.x - pc.x}px, ${tc.y - pc.y}px) scale(${scale})`;
+      }
+      widget.dataset.state = "docking";
+    };
+
+    const park = () => {
+      widget.style.transform = "";
+      widget.dataset.state = "parked";
+    };
+
+    const hide = () => {
+      widget.style.transform = "";
+      widget.dataset.state = "hidden";
+    };
+
+    const refresh = () => {
+      if (valuesInView) dock();
+      else if (!heroInView) park();
+      else hide();
+    };
+
+    if (heroEl) {
+      new IntersectionObserver(
+        ([e]) => {
+          heroInView = e.isIntersecting;
+          refresh();
+        },
+        { threshold: 0.15 }
+      ).observe(heroEl);
+    } else {
+      heroInView = false;
+    }
+
+    new IntersectionObserver(
+      ([e]) => {
+        valuesInView = e.isIntersecting;
+        refresh();
+      },
+      { threshold: 0.35 }
+    ).observe(valuesSection);
+
+    window.addEventListener("resize", () => {
+      if (valuesInView) dock();
+    });
+
+    refresh();
+  }
+</script>

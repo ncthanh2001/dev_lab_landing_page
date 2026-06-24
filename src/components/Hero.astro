@@ -1,0 +1,305 @@
+---
+const stats = [
+  { count: 120, suffix: "+", label: "Dự án bàn giao" },
+  { count: 45, suffix: "+", label: "Khách hàng tin dùng" },
+  { count: 8, suffix: " năm", label: "Kinh nghiệm" },
+];
+---
+
+<section class="hero">
+  <div class="hero-bg" aria-hidden="true">
+    <div class="bg-grid grid-layer"></div>
+    <span class="aurora a1"></span>
+    <span class="aurora a2"></span>
+    <span class="aurora a3"></span>
+  </div>
+
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <span class="badge" data-reveal>
+        <span class="dot"></span> Phát triển sản phẩm số &amp; Đào tạo lập trình
+      </span>
+
+      <h1 data-reveal style="--reveal-delay: 80ms">
+        Xây dựng <span class="text-gradient shimmer">sản phẩm số</span>
+        &amp; đào tạo nên những lập trình viên giỏi
+      </h1>
+
+      <p class="hero-lead" data-reveal style="--reveal-delay: 160ms">
+        DevLab vừa là phòng thí nghiệm công nghệ phát triển web, mobile và phần
+        mềm theo yêu cầu, vừa là nơi đào tạo lập trình viên hiểu rõ quy trình
+        doanh nghiệp để giải quyết bài toán thực tế.
+      </p>
+
+      <div class="hero-actions" data-reveal style="--reveal-delay: 240ms">
+        <a class="btn btn-primary" href="#contact">Trao đổi dự án</a>
+        <a class="btn btn-ghost" href="#training">Xem khoá đào tạo</a>
+      </div>
+
+      <div class="hero-stats" data-reveal style="--reveal-delay: 320ms">
+        {
+          stats.map((s) => (
+            <div class="stat">
+              <strong data-count={s.count} data-suffix={s.suffix}>
+                0{s.suffix}
+              </strong>
+              <span>{s.label}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="hero-visual" data-reveal style="--reveal-delay: 200ms" aria-hidden="true">
+      <div class="code-window">
+        <div class="window-bar">
+          <span></span><span></span><span></span>
+          <em>devlab.ts</em>
+        </div>
+        <pre class="code-body"><code><span class="c-kw">const</span> <span class="c-fn">devlab</span> = <span class="c-kw">async</span> (idea) =&gt; &#123;
+  <span class="c-kw">const</span> design = <span class="c-kw">await</span> <span class="c-fn">craft</span>(idea);
+  <span class="c-kw">const</span> app = <span class="c-kw">await</span> <span class="c-fn">build</span>(design, &#123;
+    quality: <span class="c-str">'pixel-perfect'</span>,
+    speed: <span class="c-str">'fast'</span>,
+  &#125;);
+
+  <span class="c-kw">return</span> <span class="c-fn">ship</span>(app); <span class="c-cm">// 🚀</span>
+&#125;;</code></pre>
+      </div>
+      <div class="glow"></div>
+      <div class="float-card card-a">⚡ Hiệu năng tối ưu</div>
+      <div class="float-card card-b">✓ Bàn giao đúng hẹn</div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    background: var(--surface);
+    padding-block: clamp(56px, 8vw, 104px);
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .grid-layer {
+    position: absolute;
+    inset: 0;
+  }
+
+  .aurora.a1 {
+    width: 460px;
+    height: 460px;
+    top: -160px;
+    right: -80px;
+    background: radial-gradient(circle, #3b9cff, transparent 65%);
+  }
+
+  .aurora.a2 {
+    width: 380px;
+    height: 380px;
+    top: 120px;
+    left: -120px;
+    background: radial-gradient(circle, #1677ff, transparent 65%);
+    animation-delay: -6s;
+  }
+
+  .aurora.a3 {
+    width: 320px;
+    height: 320px;
+    bottom: -140px;
+    left: 38%;
+    background: radial-gradient(circle, #74b6ff, transparent 65%);
+    opacity: 0.4;
+    animation-delay: -11s;
+  }
+
+  .hero-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 56px;
+    align-items: center;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    background: var(--brand-gradient-soft);
+    border: 1px solid var(--border);
+    color: var(--blue-700);
+    font-weight: 600;
+    font-size: 0.86rem;
+    padding: 7px 16px;
+    border-radius: 999px;
+    margin-bottom: 26px;
+  }
+
+  .badge .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--blue-500);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(22, 119, 255, 0.5);
+    }
+    70% {
+      box-shadow: 0 0 0 9px rgba(22, 119, 255, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(22, 119, 255, 0);
+    }
+  }
+
+  h1 {
+    font-size: clamp(2.4rem, 5vw, 3.7rem);
+    font-weight: 800;
+    margin-bottom: 22px;
+  }
+
+  .hero-lead {
+    font-size: 1.14rem;
+    color: var(--text-muted);
+    max-width: 520px;
+    margin-bottom: 34px;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 48px;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .stat strong {
+    display: block;
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: var(--text-strong);
+    line-height: 1;
+  }
+
+  .stat span {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+  }
+
+  /* Visual */
+  .hero-visual {
+    position: relative;
+  }
+
+  .code-window {
+    position: relative;
+    z-index: 2;
+    background: var(--navy-800);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+  }
+
+  .window-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 18px;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .window-bar span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #3a4258;
+  }
+  .window-bar span:nth-child(1) { background: #ff5f57; }
+  .window-bar span:nth-child(2) { background: #febc2e; }
+  .window-bar span:nth-child(3) { background: #28c840; }
+
+  .window-bar em {
+    margin-left: auto;
+    font-style: normal;
+    font-size: 0.82rem;
+    color: #8893ad;
+  }
+
+  .code-body {
+    margin: 0;
+    padding: 24px 26px 28px;
+    font-family: "SFMono-Regular", "JetBrains Mono", Consolas, Menlo, monospace;
+    font-size: 0.92rem;
+    line-height: 1.85;
+    color: #c6d0e6;
+    overflow-x: auto;
+  }
+
+  .c-kw { color: #7aa2ff; }
+  .c-fn { color: #5ee0c4; }
+  .c-str { color: #ffb86c; }
+  .c-cm { color: #5d6b8a; font-style: italic; }
+
+  .glow {
+    position: absolute;
+    inset: 12% 8% 8% 12%;
+    z-index: 1;
+    background: var(--brand-gradient);
+    filter: blur(60px);
+    opacity: 0.35;
+    border-radius: 50%;
+  }
+
+  .float-card {
+    position: absolute;
+    z-index: 3;
+    background: #fff;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+    border-radius: 14px;
+    padding: 12px 16px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-strong);
+    animation: float 5s ease-in-out infinite;
+  }
+
+  .card-a { top: -18px; right: 6%; }
+  .card-b { bottom: -20px; left: -6%; animation-delay: 1.4s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  @media (max-width: 920px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+    .hero-visual {
+      max-width: 520px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .float-card { animation: none; }
+  }
+</style>

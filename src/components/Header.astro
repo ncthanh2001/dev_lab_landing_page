@@ -1,0 +1,189 @@
+---
+const links = [
+  { href: "#services", label: "Dịch vụ" },
+  { href: "#why", label: "Vì sao chọn DevLab" },
+  { href: "#process", label: "Quy trình" },
+  { href: "#training", label: "Đào tạo" },
+  { href: "#contact", label: "Liên hệ" },
+];
+---
+
+<header class="site-header" id="top">
+  <div class="container header-inner">
+    <a class="brand" href="#top" aria-label="DevLab — về đầu trang">
+      <img src="/devlab-logo.png" alt="DevLab" width="140" height="140" />
+    </a>
+
+    <nav class="nav" aria-label="Điều hướng chính">
+      {links.map((link) => <a href={link.href}>{link.label}</a>)}
+    </nav>
+
+    <a class="btn btn-primary nav-cta" href="#contact">Bắt đầu dự án</a>
+
+    <button class="menu-toggle" aria-label="Mở menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <nav class="mobile-nav" aria-label="Điều hướng di động" hidden>
+    {links.map((link) => <a href={link.href}>{link.label}</a>)}
+    <a class="btn btn-primary" href="#contact">Bắt đầu dự án</a>
+  </nav>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 84px;
+    gap: 24px;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .brand img {
+    height: 62px;
+    width: auto;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), filter 0.3s ease;
+    animation: logo-float 4.5s ease-in-out infinite;
+  }
+
+  .brand:hover img {
+    transform: scale(1.07);
+    filter: drop-shadow(0 6px 16px rgba(22, 119, 255, 0.45));
+    animation-play-state: paused;
+  }
+
+  @keyframes logo-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-3px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .brand img {
+      animation: none;
+    }
+  }
+
+  .nav {
+    display: flex;
+    gap: 32px;
+    margin-left: auto;
+  }
+
+  .nav a {
+    font-weight: 500;
+    color: var(--text-body);
+    font-size: 0.98rem;
+    position: relative;
+    transition: color 0.18s ease;
+  }
+
+  .nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 0;
+    height: 2px;
+    background: var(--brand-gradient);
+    transition: width 0.2s ease;
+  }
+
+  .nav a:hover {
+    color: var(--text-strong);
+  }
+
+  .nav a:hover::after {
+    width: 100%;
+  }
+
+  .nav-cta {
+    padding: 11px 22px;
+    font-size: 0.95rem;
+  }
+
+  .menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+  }
+
+  .menu-toggle span {
+    width: 24px;
+    height: 2px;
+    background: var(--text-strong);
+    border-radius: 2px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  .mobile-nav {
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px 24px 24px;
+    border-bottom: 1px solid var(--border);
+    background: #fff;
+  }
+
+  .mobile-nav a:not(.btn) {
+    padding: 10px 4px;
+    font-weight: 500;
+    border-bottom: 1px solid var(--surface-alt);
+  }
+
+  @media (max-width: 860px) {
+    .nav,
+    .nav-cta {
+      display: none;
+    }
+    .menu-toggle {
+      display: flex;
+    }
+    .mobile-nav[data-open="true"] {
+      display: flex;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector(".menu-toggle");
+  const mobileNav = document.querySelector(".mobile-nav");
+
+  toggle?.addEventListener("click", () => {
+    const isOpen = mobileNav?.getAttribute("data-open") === "true";
+    mobileNav?.setAttribute("data-open", String(!isOpen));
+    if (mobileNav) mobileNav.hidden = isOpen;
+    toggle.setAttribute("aria-expanded", String(!isOpen));
+  });
+
+  mobileNav?.querySelectorAll("a").forEach((link) =>
+    link.addEventListener("click", () => {
+      mobileNav.setAttribute("data-open", "false");
+      mobileNav.hidden = true;
+      toggle?.setAttribute("aria-expanded", "false");
+    })
+  );
+</script>

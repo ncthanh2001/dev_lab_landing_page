@@ -1,0 +1,98 @@
+---
+const tech = [
+  "TypeScript",
+  "React",
+  "Next.js",
+  "Astro",
+  "Node.js",
+  "React Native",
+  "Flutter",
+  "PostgreSQL",
+  "Tailwind CSS",
+  "AWS",
+  "Docker",
+  "Figma",
+];
+// duplicate for a seamless loop
+const loop = [...tech, ...tech];
+---
+
+<section class="marquee-section">
+  <div class="container">
+    <p class="marquee-caption" data-reveal>Công nghệ chúng tôi sử dụng</p>
+  </div>
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      {loop.map((t) => <span class="chip">{t}</span>)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .marquee-section {
+    padding-block: 40px 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .marquee-caption {
+    text-align: center;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 26px;
+  }
+
+  .marquee {
+    position: relative;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 14px;
+    width: max-content;
+    padding-bottom: 32px;
+    animation: scroll 32s linear infinite;
+  }
+
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  .chip {
+    flex-shrink: 0;
+    padding: 11px 22px;
+    border-radius: 999px;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    font-weight: 600;
+    font-size: 0.98rem;
+    color: var(--text-body);
+    white-space: nowrap;
+    transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  }
+
+  .chip:hover {
+    color: var(--blue-600);
+    border-color: var(--blue-500);
+    background: var(--brand-gradient-soft);
+  }
+
+  @keyframes scroll {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+</style>

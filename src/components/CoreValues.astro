@@ -1,0 +1,309 @@
+---
+const values = [
+  {
+    icon: "🛡️",
+    title: "Đạo Đức",
+    angle: "0deg",
+    desc: "Trung thực, minh bạch và đặt lợi ích của khách hàng làm trọng tâm trong mọi quyết định.",
+  },
+  {
+    icon: "🧠",
+    title: "Trí Tuệ",
+    angle: "120deg",
+    desc: "Không ngừng học hỏi, sáng tạo và chọn đúng công nghệ để giải đúng bài toán.",
+  },
+  {
+    icon: "🚀",
+    title: "Nghị Lực",
+    angle: "240deg",
+    desc: "Kiên trì theo đuổi mục tiêu, vượt qua thử thách để bàn giao sản phẩm đến cùng.",
+  },
+];
+---
+
+<section class="section values" id="values">
+  <div class="container values-grid">
+    <div class="values-copy" data-reveal>
+      <span class="eyebrow">Giá trị cốt lõi</span>
+      <h2 class="section-title">
+        Luôn đặt <span class="text-gradient">Đạo Đức · Trí Tuệ · Nghị Lực</span>
+        lên hàng đầu
+      </h2>
+      <p class="section-lead">
+        Mọi sản phẩm và khoá học của DevLab đều xoay quanh ba giá trị nền tảng —
+        kim chỉ nam cho cách chúng tôi làm việc và đồng hành cùng bạn.
+      </p>
+
+      <ul class="value-list">
+        {
+          values.map((v) => (
+            <li>
+              <span class="vl-icon">{v.icon}</span>
+              <div>
+                <strong>{v.title}</strong>
+                <p>{v.desc}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="values-visual" data-reveal style="--reveal-delay: 140ms">
+      <div class="orbit" id="values-orbit">
+        <span class="orbit-ring r1"></span>
+        <span class="orbit-ring r2"></span>
+
+        <div class="orbit-core">
+          <img src="/devlab-logo.png" alt="DevLab" width="120" height="120" />
+        </div>
+
+        <div class="rotor">
+          {
+            values.map((v) => (
+              <div class="node" style={`--a: ${v.angle}`}>
+                <div class="node-spin">
+                  <div class="chip">
+                    <span class="chip-icon">{v.icon}</span>
+                    <span class="chip-label">{v.title}</span>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .values {
+    background: var(--surface-alt);
+    overflow: hidden;
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+
+  .section-title {
+    margin-bottom: 16px;
+  }
+
+  .value-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 34px;
+    display: grid;
+    gap: 20px;
+  }
+
+  .value-list li {
+    display: flex;
+    gap: 16px;
+  }
+
+  .vl-icon {
+    flex-shrink: 0;
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    font-size: 1.35rem;
+    border-radius: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .value-list strong {
+    display: block;
+    color: var(--text-strong);
+    font-size: 1.08rem;
+    margin-bottom: 3px;
+  }
+
+  .value-list p {
+    color: var(--text-muted);
+    font-size: 0.97rem;
+  }
+
+  /* ---------- Orbit ---------- */
+  .values-visual {
+    display: grid;
+    place-items: center;
+  }
+
+  .orbit {
+    position: relative;
+    width: clamp(290px, 38vw, 420px);
+    aspect-ratio: 1;
+    --radius: clamp(118px, 16vw, 168px);
+  }
+
+  .orbit-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px dashed rgba(22, 119, 255, 0.3);
+  }
+
+  .orbit-ring.r1 {
+    inset: 8%;
+    animation: spin 40s linear infinite;
+  }
+
+  .orbit-ring.r2 {
+    inset: 24%;
+    border-style: solid;
+    border-color: rgba(59, 156, 255, 0.18);
+    animation: spin 28s linear infinite reverse;
+  }
+
+  .orbit-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 38%;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: grid;
+    place-items: center;
+    box-shadow: var(--shadow-md), 0 0 0 10px rgba(22, 119, 255, 0.05);
+    z-index: 2;
+  }
+
+  .orbit-core::after {
+    content: "";
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    background: var(--brand-gradient) border-box;
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.7;
+    animation: pulse-ring 3s ease-in-out infinite;
+  }
+
+  .orbit-core img {
+    width: 76%;
+    height: auto;
+  }
+
+  .rotor {
+    position: absolute;
+    inset: 0;
+    animation: spin 26s linear infinite;
+  }
+
+  .node {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    /* place the point on the circle, then keep the box upright vs. the rotor */
+    transform: rotate(var(--a)) translateY(calc(-1 * var(--radius))) rotate(calc(-1 * var(--a)));
+  }
+
+  .node-spin {
+    /* counter-rotate against the rotor so the chip stays upright in the world */
+    animation: spin-rev 26s linear infinite;
+  }
+
+  .chip {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    white-space: nowrap;
+    padding: 10px 18px 10px 12px;
+    border-radius: 999px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+
+  .chip:hover {
+    border-color: var(--blue-500);
+    box-shadow: var(--shadow-lg);
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+
+  .chip-icon {
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    font-size: 1rem;
+    border-radius: 50%;
+    background: var(--brand-gradient-soft);
+  }
+
+  .chip-label {
+    font-weight: 700;
+    color: var(--text-strong);
+    font-size: 0.98rem;
+  }
+
+  /* Pause the whole system on hover */
+  .orbit:hover .rotor,
+  .orbit:hover .node-spin,
+  .orbit:hover .orbit-ring {
+    animation-play-state: paused;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes spin-rev {
+    to {
+      transform: rotate(-360deg);
+    }
+  }
+
+  @keyframes pulse-ring {
+    0%,
+    100% {
+      opacity: 0.35;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.85;
+      transform: scale(1.04);
+    }
+  }
+
+  @media (max-width: 920px) {
+    .values-grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rotor,
+    .node-spin,
+    .orbit-ring,
+    .orbit-core::after {
+      animation: none;
+    }
+  }
+</style>

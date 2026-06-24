@@ -1,0 +1,131 @@
+---
+const steps = [
+  {
+    no: "01",
+    title: "Tìm hiểu & tư vấn",
+    desc: "Lắng nghe bài toán, mục tiêu kinh doanh và đề xuất giải pháp công nghệ phù hợp nhất.",
+  },
+  {
+    no: "02",
+    title: "Thiết kế & lên kế hoạch",
+    desc: "Xây dựng wireframe, giao diện UI/UX và lộ trình phát triển chi tiết theo từng cột mốc.",
+  },
+  {
+    no: "03",
+    title: "Phát triển & kiểm thử",
+    desc: "Lập trình theo sprint, kiểm thử liên tục và cập nhật tiến độ minh bạch cho bạn.",
+  },
+  {
+    no: "04",
+    title: "Bàn giao & đồng hành",
+    desc: "Triển khai sản phẩm, hướng dẫn sử dụng và hỗ trợ bảo trì, nâng cấp lâu dài.",
+  },
+];
+---
+
+<section class="section process" id="process">
+  <div class="container">
+    <div class="section-head center" data-reveal>
+      <span class="eyebrow">Quy trình làm việc</span>
+      <h2 class="section-title">4 bước từ ý tưởng đến sản phẩm</h2>
+      <p class="section-lead">
+        Một quy trình rõ ràng, minh bạch giúp bạn luôn nắm được dự án đang ở đâu.
+      </p>
+    </div>
+
+    <ol class="steps">
+      {
+        steps.map((s, i) => (
+          <li class="step" data-reveal style={`--reveal-delay: ${i * 90}ms`}>
+            <span class="step-no">{s.no}</span>
+            <h3>{s.title}</h3>
+            <p>{s.desc}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .section-head.center {
+    max-width: 640px;
+    margin: 0 auto 56px;
+    text-align: center;
+  }
+
+  .center .section-lead {
+    margin-inline: auto;
+  }
+
+  .steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    counter-reset: step;
+  }
+
+  .step {
+    position: relative;
+    padding: 32px 24px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .step:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .step-no {
+    display: inline-block;
+    font-size: 2.1rem;
+    font-weight: 800;
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 14px;
+  }
+
+  .step h3 {
+    font-size: 1.14rem;
+    margin-bottom: 8px;
+  }
+
+  .step p {
+    font-size: 0.96rem;
+    color: var(--text-muted);
+  }
+
+  /* Connector line on wide screens */
+  .step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 52px;
+    right: -14px;
+    width: 28px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--blue-500), transparent);
+  }
+
+  @media (max-width: 920px) {
+    .steps {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .step:not(:last-child)::after {
+      display: none;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .steps {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

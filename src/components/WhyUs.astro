@@ -1,0 +1,183 @@
+---
+const points = [
+  {
+    title: "Đội ngũ giàu kinh nghiệm",
+    desc: "Lập trình viên, designer và quản lý dự án đã cùng nhau bàn giao hàng trăm sản phẩm thực tế.",
+  },
+  {
+    title: "Code sạch, dễ bảo trì",
+    desc: "Chúng tôi viết code có kiểm thử, tài liệu rõ ràng và bàn giao trọn vẹn — không khoá bạn vào nhà phát triển.",
+  },
+  {
+    title: "Minh bạch & đúng hẹn",
+    desc: "Báo cáo tiến độ thường xuyên, sprint rõ ràng và cam kết thời gian bàn giao ngay từ đầu.",
+  },
+  {
+    title: "Đồng hành sau bàn giao",
+    desc: "Bảo hành, nâng cấp và hỗ trợ kỹ thuật liên tục để sản phẩm của bạn luôn vận hành tốt.",
+  },
+];
+---
+
+<section class="section why" id="why">
+  <div class="container why-grid">
+    <div class="why-copy" data-reveal>
+      <span class="eyebrow">Vì sao chọn DevLab</span>
+      <h2 class="section-title">Một đối tác kỹ thuật bạn có thể tin tưởng</h2>
+      <p class="section-lead">
+        Chúng tôi không chỉ viết code — chúng tôi cùng bạn giải quyết bài toán
+        kinh doanh bằng công nghệ phù hợp nhất.
+      </p>
+
+      <ul class="point-list">
+        {
+          points.map((p) => (
+            <li>
+              <span class="check" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none">
+                  <path
+                    d="M20 6 9 17l-5-5"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+              <div>
+                <strong>{p.title}</strong>
+                <p>{p.desc}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <aside class="why-panel" data-reveal style="--reveal-delay: 120ms">
+      <div class="panel-card">
+        <div class="panel-row">
+          <span class="panel-num text-gradient" data-count="98" data-suffix="%">0%</span>
+          <span class="panel-label">Khách hàng quay lại cho dự án tiếp theo</span>
+        </div>
+        <div class="panel-divider"></div>
+        <div class="panel-row">
+          <span class="panel-num text-gradient" data-count="2" data-suffix=" tuần">0 tuần</span>
+          <span class="panel-label">Trung bình để ra mắt phiên bản đầu tiên (MVP)</span>
+        </div>
+        <div class="panel-divider"></div>
+        <div class="panel-row">
+          <span class="panel-num text-gradient">24/7</span>
+          <span class="panel-label">Hỗ trợ kỹ thuật cho các dự án đang vận hành</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<style>
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 56px;
+    align-items: center;
+  }
+
+  .section-title {
+    margin-bottom: 16px;
+  }
+
+  .point-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 36px;
+    display: grid;
+    gap: 22px;
+  }
+
+  .point-list li {
+    display: flex;
+    gap: 16px;
+  }
+
+  .check {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    background: var(--brand-gradient);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .point-list strong {
+    display: block;
+    color: var(--text-strong);
+    font-size: 1.05rem;
+    margin-bottom: 3px;
+  }
+
+  .point-list p {
+    color: var(--text-muted);
+    font-size: 0.97rem;
+  }
+
+  .why-panel {
+    position: relative;
+  }
+
+  .panel-card {
+    background: var(--navy-700);
+    border-radius: var(--radius-lg);
+    padding: 40px 36px;
+    color: var(--text-invert);
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .panel-card::before {
+    content: "";
+    position: absolute;
+    top: -40%;
+    right: -20%;
+    width: 70%;
+    height: 80%;
+    background: var(--brand-gradient);
+    filter: blur(70px);
+    opacity: 0.4;
+  }
+
+  .panel-row {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .panel-num {
+    font-size: 2.6rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .panel-label {
+    color: #aab6d4;
+    font-size: 0.98rem;
+  }
+
+  .panel-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 26px 0;
+  }
+
+  @media (max-width: 920px) {
+    .why-grid {
+      grid-template-columns: 1fr;
+      gap: 44px;
+    }
+  }
+</style>

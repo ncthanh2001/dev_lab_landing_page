@@ -1,0 +1,86 @@
+---
+// Soft glow that smoothly trails the mouse cursor across the page.
+---
+
+<div class="cursor-glow" aria-hidden="true"></div>
+
+<style>
+  .cursor-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 480px;
+    height: 480px;
+    margin: -240px 0 0 -240px; /* center the disc on the cursor point */
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    background: radial-gradient(
+      circle,
+      rgba(59, 156, 255, 0.26),
+      rgba(22, 119, 255, 0.12) 38%,
+      transparent 66%
+    );
+    filter: blur(46px);
+    opacity: 0;
+    transform: translate3d(-50vw, -50vh, 0);
+    transition: opacity 0.35s ease;
+    will-change: transform;
+  }
+
+  .cursor-glow.is-active {
+    opacity: 1;
+  }
+
+  /* No cursor on touch screens, and respect reduced-motion */
+  @media (hover: none), (prefers-reduced-motion: reduce) {
+    .cursor-glow {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const glow = document.querySelector<HTMLElement>(".cursor-glow");
+  const canHover = window.matchMedia("(hover: hover)").matches;
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (glow && canHover && !reduced) {
+    let targetX = window.innerWidth / 2;
+    let targetY = window.innerHeight / 2;
+    let curX = targetX;
+    let curY = targetY;
+    let started = false;
+
+    window.addEventListener(
+      "mousemove",
+      (e) => {
+        targetX = e.clientX;
+        targetY = e.clientY;
+        if (!started) {
+          started = true;
+          curX = targetX;
+          curY = targetY;
+          glow.classList.add("is-active");
+        }
+      },
+      { passive: true }
+    );
+
+    window.addEventListener("mouseout", (e) => {
+      if (!e.relatedTarget) glow.classList.remove("is-active");
+    });
+    document.addEventListener("mouseenter", () => {
+      if (started) glow.classList.add("is-active");
+    });
+
+    const render = () => {
+      // ease toward the cursor for a smooth trailing feel
+      curX += (targetX - curX) * 0.14;
+      curY += (targetY - curY) * 0.14;
+      glow.style.transform = `translate3d(${curX}px, ${curY}px, 0)`;
+      requestAnimationFrame(render);
+    };
+    requestAnimationFrame(render);
+  }
+</script>
